@@ -13,11 +13,11 @@
 	movies = data.movies;
 </script>
 
-<div class="bg-base-300">
+<div class="bg-base-300 min-h-screen">
 	<NavBar bind:movies />
 	<div class="h-16"></div>
 	<MovieList bind:movies />
-	<!-- <MovieOfTheWeek /> -->
+	<MovieOfTheWeek bind:movies />
 </div>
 
 <style>

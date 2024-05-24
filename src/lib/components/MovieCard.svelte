@@ -6,6 +6,8 @@
 	export let movies: MovieType[] | null = null;
 	export let small: boolean = true;
 	export let id: undefined | string = undefined;
+	export let showVotes: boolean = false;
+	export let custom: boolean = false;
 
 	let figureClass = small ? ' w-1/5' : ' w-1/2';
 
@@ -56,50 +58,57 @@
 			<img src={movie.image} alt="Movie" />
 		{/if}
 	</figure>
-	<div class="card-body w-full flex-col py-4 sm:flex-row">
-		{#if small}
-			<h4 class="flex w-full items-center text-wrap text-sm">{movie.title}</h4>
-		{:else}
-			<h2 class="card-title w-full">{movie.title}</h2>
-		{/if}
+	{#if custom}
+		<slot />
+	{:else}
+		<div class="card-body w-full flex-col py-4 sm:flex-row">
+			<slot />
+			{#if small}
+				<h2 class="flex w-full items-center text-wrap text-sm font-normal sm:text-lg">
+					{movie.title}
+				</h2>
+			{:else}
+				<h2 class="card-title w-full font-bold">{movie.title}</h2>
+			{/if}
 
-		{#if movie.for != null && movie.against != null}
-			<div
-				class="card-actions grid h-full grid-cols-4 grid-rows-1 items-center justify-end justify-items-center gap-0 sm:w-1/2 sm:grid-cols-2 sm:grid-rows-2"
-			>
-				<button
-					class="btn btn-success h-7 min-h-0 w-7 border-0 p-1.5 sm:h-12 sm:w-12 sm:p-4 tooltip tooltip-left"
-					on:click={onForClick}
-					data-tip="Upvote"
-					
+			<slot name="button" />
+
+			{#if showVotes}
+				<div
+					class="card-actions grid h-full grid-cols-4 grid-rows-1 items-center justify-end justify-items-center gap-0 sm:w-1/2 sm:grid-cols-2 sm:grid-rows-2"
 				>
-					<Icon src={ArrowUp} />
-				</button>
-				<p class="flex items-center justify-center">
-					{#if movie.for == null}
-						-
-					{:else}
-						{movie.for}
-					{/if}
-				</p>
-				<button
-					class="btn btn-error h-7 min-h-0 w-7 border-0 p-1.5 sm:h-12 sm:w-12 sm:p-4 tooltip tooltip-left"
-					on:click={onAgainstClick}
-					data-tip="Downvote"
-					
-				>
-					<Icon src={ArrowDown} />
-				</button>
-				<p class="flex items-center justify-center">
-					{#if movie.against == null}
-						-
-					{:else}
-						{movie.against}
-					{/if}
-				</p>
-			</div>
-		{/if}
-	</div>
+					<button
+						class="btn btn-success tooltip tooltip-left h-7 min-h-0 w-7 border-0 p-1.5 sm:h-12 sm:w-12 sm:p-4"
+						on:click={onForClick}
+						data-tip="Upvote"
+					>
+						<Icon src={ArrowUp} />
+					</button>
+					<p class="flex items-center justify-center">
+						{#if movie.for == null}
+							-
+						{:else}
+							{movie.for}
+						{/if}
+					</p>
+					<button
+						class="btn btn-error tooltip tooltip-left h-7 min-h-0 w-7 border-0 p-1.5 sm:h-12 sm:w-12 sm:p-4"
+						on:click={onAgainstClick}
+						data-tip="Downvote"
+					>
+						<Icon src={ArrowDown} />
+					</button>
+					<p class="flex items-center justify-center">
+						{#if movie.against == null}
+							-
+						{:else}
+							{movie.against}
+						{/if}
+					</p>
+				</div>
+			{/if}
+		</div>
+	{/if}
 </div>
 
 <style>

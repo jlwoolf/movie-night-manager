@@ -29,7 +29,7 @@
 			const res = await fetch('/api/movie/add', {
 				method: 'POST',
 				body: JSON.stringify(movie)
-			});
+			});			
 
 			movies = await (
 				await fetch('/api/movie/get', {
@@ -39,6 +39,11 @@
 					})
 				})
 			).json();
+
+            let attemptedMovie = await res.json();
+            if (attemptedMovie.watched) {
+                return
+			}
 
 			let modal = <HTMLDialogElement>document.getElementById('add_modal');
 			modal.close();
@@ -67,12 +72,13 @@
 				on:input={onInput}
 			/>
 			<ul
-				class="dropdown-content bg-base-300 z-[1] flex flex-col flex-nowrap overflow-visible text-nowrap rounded-box py-2 shadow"
+				class="dropdown-content z-[1] flex flex-col flex-nowrap overflow-visible text-nowrap rounded-box bg-base-300 py-2 shadow"
 			>
 				{#each search as movie}
 					<li class="px-2">
 						<button class="w-full" on:click={onClickGenerator(movie)}>
 							<MovieCard {movie} small={true} />
+
 						</button>
 					</li>
 				{/each}

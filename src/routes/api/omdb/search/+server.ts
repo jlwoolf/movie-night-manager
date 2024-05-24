@@ -1,4 +1,5 @@
 import { OMDB_API_KEY } from '$env/static/private';
+import Movie from '$lib/db/movie';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const POST = (async ({ request, ...event }) => {
@@ -22,6 +23,15 @@ export const POST = (async ({ request, ...event }) => {
 			imdbID: movie.imdbID
 		};
 	});
+
+	let watched = await Movie.findAll({
+		where: {
+			watched: true
+		}
+	});
+	let watchedIDs = watched.map((w) => w.dataValues.imdbID);
+
+	movies = movies.filter((movie) => !(watchedIDs.includes(movie.imdbID)));
 
 	return json(movies);
 }) satisfies RequestHandler;

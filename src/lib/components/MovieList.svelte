@@ -39,7 +39,7 @@
 			out:send={{ key: movie.id }}
 			animate:flip={{ duration: 200 }}
 		>
-			<MovieCard bind:movies {movie} id={`ml-${movie.id}`} />
+			<MovieCard bind:movies {movie} id={`ml-${movie.id}`} showVotes={true}/>
 		</div>
 	{/each}
 </div>

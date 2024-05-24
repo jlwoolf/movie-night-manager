@@ -16,7 +16,12 @@ export const POST = (async ({ request }) => {
 			movies = await Movie.findAll();
 		}
 
-		return json(movies.map((movie) => movie.dataValues));
+		let post = movies.map((movie) => movie.dataValues);
+		post.sort((a, b) => {
+			return (b.for ?? 0) - (b.against ?? 0) - ((a.for ?? 0) - (a.against ?? 0));
+		});
+
+		return json(post);
 	} catch (e: any) {
 		return error(500, e.message);
 	}
