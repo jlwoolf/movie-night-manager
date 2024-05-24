@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import movieData from '$lib/movies.json';
 	import type { MovieType } from '$lib/db/movie';
 
 	$: value = '';

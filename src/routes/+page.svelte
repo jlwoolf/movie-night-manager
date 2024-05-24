@@ -1,9 +1,6 @@
 <script lang="ts">
 	import MovieList from '$lib/components/MovieList.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
-	import { onMount } from 'svelte';
-	import movieData from '$lib/movies.json';
-	import AddModal from '$lib/components/AddModal.svelte';
 	import type { MovieType } from '$lib/db/movie';
 	import MovieOfTheWeek from '$lib/components/MovieOfTheWeek.svelte';
 
