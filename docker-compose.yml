@@ -1,0 +1,26 @@
+name: movie-night-manager
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    volumes:
+      - "./mysql:/var/lib/mysql"
+    env_file:
+      - '.env'
+  app:
+    container_name: movie-app
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: run
+    restart: always
+    volumes: 
+      - .:/usr/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
