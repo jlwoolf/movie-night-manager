@@ -55,6 +55,8 @@ Movie.init(
 	{ sequelize }
 );
 
-await Movie.sync({ force: true });
+try {
+	await Movie.sync();
+} catch (e: any) {}
 
 export default Movie;

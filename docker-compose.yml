@@ -1,16 +1,10 @@
 name: movie-night-manager
 
+networks:
+  movie-app:
+    name: movie-app
+
 services:
-  mysql:
-    image: mysql:latest
-    container_name: mysql
-    restart: always
-    ports:
-      - '3306:3306'
-    volumes:
-      - "./mysql:/var/lib/mysql"
-    env_file:
-      - '.env'
   app:
     container_name: movie-app
     build: 
@@ -18,9 +12,19 @@ services:
       dockerfile: Dockerfile
       target: run
     restart: always
-    volumes: 
-      - .:/usr/app
     ports:
-      - "3000:3000"
+      - "3000"
     env_file:
       - .env
+    volumes:
+      - ./movies.sqlite:/usr/app/movies.sqlite
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.movie-app.loadbalancer.server.port=3000"
+      # https/websecure
+      - "traefik.http.routers.client.entrypoints=web,websecure"
+      - "traefik.http.routers.client.rule=Host(`jlwoolf.com`) && PathPrefix(`/movies`)"
+      - "traefik.http.routers.client.tls=true"
+      - "traefik.http.routers.client.tls.certresolver=production"
+      - "traefik.http.routers.client.tls.domains[0].main=jlwoolf.com"
+      - "traefik.http.routers.client.tls.domains[0].sans=*.jlwoolf.com"

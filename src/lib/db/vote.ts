@@ -43,6 +43,8 @@ Vote.init(
 Movie.hasMany(Vote);
 Vote.belongsTo(Movie);
 
-await Vote.sync({ force: true });
+try {
+	await Vote.sync();
+} catch (e: any) {}
 
 export default Vote;

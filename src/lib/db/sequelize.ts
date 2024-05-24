@@ -1,15 +1,9 @@
-import { MYSQL_PASSWORD, MYSQL_ROOT_PASSWORD, MYSQL_USER } from '$env/static/private';
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize(
-    'movies',
-    MYSQL_USER,
-    MYSQL_PASSWORD,
-    {
-        'host': 'localhost',
-        'dialect': 'mysql',
-    }
-);
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'movies.sqlite'
+});
 
 try {
     await sequelize.authenticate();

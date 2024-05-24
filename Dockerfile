@@ -11,5 +11,5 @@ FROM node:latest as run
 WORKDIR /usr/app
 COPY --from=build /usr/app/package.json ./package.json
 COPY --from=build /usr/app/build ./build
-RUN npm install --production
+RUN npm install --omit=dev
 ENTRYPOINT [ "node", "build" ]
