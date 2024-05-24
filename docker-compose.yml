@@ -17,7 +17,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./movies.sqlite:/usr/app/movies.sqlite
+      - ./sqlite/:/usr/app/sqlite/
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.movie-app.loadbalancer.server.port=3000"
