@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import type { MovieType } from '$lib/db/movie';
+	import { API_URL, fetchMovies } from '$lib/utils';
 	import { Icon, ArrowUp, ArrowDown } from 'svelte-hero-icons';
 
 	export let movie: MovieType;
@@ -12,7 +14,7 @@
 	let figureClass = small ? ' w-1/5' : ' w-1/2';
 
 	export let onForClick = async (e: MouseEvent) => {
-		const res = await fetch('/api/vote', {
+		const res = await fetch(`${API_URL}/vote`, {
 			method: 'POST',
 			body: JSON.stringify({
 				movieId: movie.id,
@@ -20,18 +22,11 @@
 			})
 		});
 
-		movies = await (
-			await fetch('/api/movie/get', {
-				method: 'POST',
-				body: JSON.stringify({
-					watched: false
-				})
-			})
-		).json();
+		movies = await fetchMovies();
 	};
 
 	export let onAgainstClick = async (e: MouseEvent) => {
-		const res = await fetch('/api/vote', {
+		const res = await fetch(`${API_URL}/vote`, {
 			method: 'POST',
 			body: JSON.stringify({
 				movieId: movie.id,
@@ -39,21 +34,14 @@
 			})
 		});
 
-		movies = await (
-			await fetch('/api/movie/get', {
-				method: 'POST',
-				body: JSON.stringify({
-					watched: false
-				})
-			})
-		).json();
+		movies = await fetchMovies();
 	};
 </script>
 
 <div class="card card-side w-full max-w-screen-sm bg-base-200 shadow-xl" {id}>
 	<figure class={'h-auto' + figureClass}>
 		{#if movie.image == 'N/A'}
-			<img src="/na.png" alt="Movie" class="flex bg-white" />
+			<img src="{base}/na.png" alt="Movie" class="flex bg-white" />
 		{:else}
 			<img src={movie.image} alt="Movie" />
 		{/if}

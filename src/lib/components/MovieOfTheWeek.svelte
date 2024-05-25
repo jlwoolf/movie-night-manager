@@ -2,13 +2,15 @@
 	import type { MovieType } from '$lib/db/movie';
 	import { Icon, Check, XMark } from 'svelte-hero-icons';
 	import MovieCard from './MovieCard.svelte';
+	import { base } from '$app/paths';
+	import { API_URL, fetchMovies } from '$lib/utils';
 
 	export let movies: MovieType[];
 	$: movie = movies[0] ?? null;
 
 	let dismiss: boolean = false;
 	let markAsWatched = async () => {
-		const res = await fetch('/api/movie/update', {
+		const res = await fetch(`${API_URL}/movie/update`, {
 			method: 'POST',
 			body: JSON.stringify({
 				watched: true,
@@ -16,14 +18,7 @@
 			})
 		});
 
-		movies = await (
-			await fetch('/api/movie/get', {
-				method: 'POST',
-				body: JSON.stringify({
-					watched: false
-				})
-			})
-		).json();
+		movies = await fetchMovies();
 	};
 </script>
 

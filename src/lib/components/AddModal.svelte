@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { MovieType } from '$lib/db/movie';
-	import { tick } from 'svelte';
 	import MovieCard from './MovieCard.svelte';
+	import { API_URL, fetchMovies } from '$lib/utils';
 
 	export let id: string;
 	export let movies: MovieType[];
@@ -12,7 +12,7 @@
 
 		if (!input.value) search = [];
 
-		const res = await fetch('/api/omdb/search', {
+		const res = await fetch(`${API_URL}/omdb/search`, {
 			method: 'POST',
 			body: JSON.stringify({
 				value: input.value
@@ -26,19 +26,12 @@
 
 	let onClickGenerator = (movie: MovieType) => {
 		return async (event: Event) => {
-			const res = await fetch('/api/movie/add', {
+			const res = await fetch(`${API_URL}/movie/add`, {
 				method: 'POST',
 				body: JSON.stringify(movie)
 			});			
 
-			movies = await (
-				await fetch('/api/movie/get', {
-					method: 'POST',
-					body: JSON.stringify({
-						watched: false
-					})
-				})
-			).json();
+			movies = await fetchMovies();
 
             let attemptedMovie = await res.json();
             if (attemptedMovie.watched) {
