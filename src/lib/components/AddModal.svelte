@@ -7,9 +7,8 @@
 	export let movies: MovieType[];
 
 	let search: MovieType[] = [];
+	let input: HTMLInputElement;
 	let onInput = async (event: Event) => {
-		let input = <HTMLInputElement>event.target;
-
 		if (!input.value) search = [];
 
 		const res = await fetch(`${API_URL}/omdb/search`, {
@@ -29,17 +28,20 @@
 			const res = await fetch(`${API_URL}/movie/add`, {
 				method: 'POST',
 				body: JSON.stringify(movie)
-			});			
+			});
 
 			movies = await fetchMovies();
 
-            let attemptedMovie = await res.json();
-            if (attemptedMovie.watched) {
-                return
+			let attemptedMovie = await res.json();
+			if (attemptedMovie.watched) {
+				return;
 			}
 
 			let modal = <HTMLDialogElement>document.getElementById('add_modal');
 			modal.close();
+
+			input.value = '';
+			search = [];
 
 			let newMovie = movies.find((m) => m.imdbID == movie.imdbID);
 			if (!newMovie) return;
@@ -62,6 +64,7 @@
 				placeholder="Search"
 				class="input input-bordered w-full"
 				on:input={onInput}
+				bind:this={input}
 			/>
 			<ul
 				class="dropdown-content z-[1] flex flex-col flex-nowrap overflow-visible text-nowrap rounded-box bg-base-300 py-2 shadow"
@@ -70,7 +73,6 @@
 					<li class="px-2">
 						<button class="w-full" on:click={onClickGenerator(movie)}>
 							<MovieCard {movie} small={true} />
-
 						</button>
 					</li>
 				{/each}

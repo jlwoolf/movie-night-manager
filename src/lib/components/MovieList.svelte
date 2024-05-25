@@ -31,7 +31,7 @@
 	});
 </script>
 
-<div class="flex w-full flex-col gap-2 p-2">
+<div class="flex w-full flex-col gap-2 p-2 mt-16">
 	{#each sortedMovies as movie (movie.id)}
 		<div
 			class="flex w-full flex-col items-center"

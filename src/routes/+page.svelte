@@ -10,9 +10,8 @@
 	movies = data.movies;
 </script>
 
-<div class="bg-base-300 min-h-screen">
+<div class="min-h-screen bg-base-300">
 	<NavBar bind:movies />
-	<div class="h-16"></div>
 	<MovieList bind:movies />
 	<MovieOfTheWeek bind:movies />
 </div>

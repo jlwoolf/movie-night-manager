@@ -18,16 +18,36 @@
 			});
 
 			const activeElement = <HTMLInputElement>document.activeElement;
-			if(activeElement)
-				activeElement.blur();
+			if (activeElement) activeElement.blur();
 		};
+	};
+
+	let onSubmit = (e: KeyboardEvent) => {
+		if (e.code != 'Enter') {
+			return;
+		}
+
+		let movie = filteredMovies[0];
+		if (movie ?? false) {
+			console.log(movie);
+			const el = document.getElementById(`ml-${movie.id}`);
+			el?.scrollIntoView({
+				behavior: 'smooth'
+			});
+		}
 	};
 </script>
 
-<div class="dropdown w-[300px]" >
-	<input type="text" placeholder="Search" class="input input-bordered" bind:value />
+<div class="dropdown w-[300px]">
+	<input
+		type="text"
+		placeholder="Search"
+		class="input input-bordered w-full"
+		bind:value
+		on:keypress={onSubmit}
+	/>
 	<ul
-		class="dropdown-content z-[1] flex-nowrap overflow-hidden text-nowrap rounded-box bg-base-100 py-2 shadow"
+		class="dropdown-content z-[1] min-w-full flex-nowrap overflow-hidden text-nowrap rounded-b-box bg-base-100 py-2 shadow"
 	>
 		{#each filteredMovies as movie}
 			<li class="px-2">

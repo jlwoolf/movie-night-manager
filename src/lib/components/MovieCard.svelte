@@ -38,7 +38,7 @@
 	};
 </script>
 
-<div class="card card-side w-full max-w-screen-sm bg-base-200 shadow-xl" {id}>
+<div class="card card-side w-full max-w-screen-sm bg-base-200 shadow-xl scroll-mt-[4.375rem]" {id}>
 	<figure class={'h-auto' + figureClass}>
 		{#if movie.image == 'N/A'}
 			<img src="{base}/na.png" alt="Movie" class="flex bg-white" />
