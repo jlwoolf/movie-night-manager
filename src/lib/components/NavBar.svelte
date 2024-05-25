@@ -12,7 +12,7 @@
 	};
 </script>
 
-<div class="fixed navbar bg-base-200 px-2 z-[1]">
+<div class="fixed top-0 navbar bg-base-200 px-2 z-[1] w-screen">
 	<div class="flex-1 gap-2">
 		<SearchBar bind:movies/>
 	</div>
@@ -20,7 +20,7 @@
 		Movie Night
 	</span> -->
 	<div class="flex-none">
-		<button class="btn btn-primary tooltip-left h-12 w-12 justify-end border-0 tooltip" on:click={addButtonOnClick} data-tip="Add Movie">
+		<button class="btn btn-primary tooltip-left h-12 w-12 justify-end border-0 tooltip mr-4" on:click={addButtonOnClick} data-tip="Add Movie">
 			<Icon src={PlusCircle} />
 		</button>
 	</div>

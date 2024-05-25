@@ -9,6 +9,18 @@
 	$: movie = movies[0] ?? null;
 
 	let dismiss: boolean = false;
+	let confirm: boolean = false;
+
+	let markAsWatchedOnClick = () => {
+		let modal = <HTMLDialogElement>document.getElementById('confirm_modal');
+		modal.showModal();
+	};
+
+	let confirmClose = () => {
+		let modal = <HTMLDialogElement>document.getElementById('confirm_modal');
+		modal.close();
+	}
+
 	let markAsWatched = async () => {
 		const res = await fetch(`${API_URL}/movie/update`, {
 			method: 'POST',
@@ -19,6 +31,7 @@
 		});
 
 		movies = await fetchMovies();
+		confirmClose();
 	};
 </script>
 
@@ -47,7 +60,7 @@
 								<button
 									class="btn btn-primary tooltip tooltip-left h-8 min-h-0 w-8 p-2 text-xs"
 									data-tip="Mark as Watched"
-									on:click={markAsWatched}
+									on:click={markAsWatchedOnClick}
 								>
 									<Icon src={Check} />
 								</button>
@@ -59,6 +72,19 @@
 		</div>
 	{/if}
 {/if}
+
+<dialog id="confirm_modal" class="modal">
+	<div class="modal-box">
+		<h3 class="text-lg font-bold pb-4">Are you sure you want to mark this movie as watched?</h3>
+		<div class="w-full flex justify-end gap-2">
+			<button class="btn max-h-0" on:click={markAsWatched}>Yes</button>
+			<button class="btn btn-primary max-h-0" on:click={confirmClose}>No</button>
+		</div>
+	</div>
+	<form method="dialog" class="modal-backdrop">
+		<button>close</button>
+	</form>
+</dialog>
 
 <style>
 </style>
