@@ -20,7 +20,6 @@ export const POST = (async ({ request, ...event }) => {
 			imdbID: data.imdbID
 		}
 	});
-    console.log(findMovie);
 
 	if (findMovie != null) {
 		return json({

@@ -46,7 +46,6 @@
 
 			setTimeout(() => {
 				const el = document.getElementById(`ml-${newMovie.id}`);
-				console.log(el);
 				el?.scrollIntoView({
 					behavior: 'smooth'
 				});

@@ -20,7 +20,6 @@ export const POST = (async ({ request }) => {
 		}
 
 		let post = movies.map((movie) => movie.dataValues);
-		console.log(post);
 		post.sort((a, b) => {
 			let diff = (b.for ?? 0) - (b.against ?? 0) - ((a.for ?? 0) - (a.against ?? 0));
 			if (diff == 0) return 0;
