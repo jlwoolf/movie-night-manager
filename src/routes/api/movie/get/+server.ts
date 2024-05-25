@@ -10,15 +10,21 @@ export const POST = (async ({ request }) => {
 			movies = await Movie.findAll({
 				where: {
 					watched: data.watched
-				}
+				},
+				order: [['createdAt', 'ASC']]
 			});
 		} else {
-			movies = await Movie.findAll();
+			movies = await Movie.findAll({
+				order: [['createdAt', 'ASC']]
+			});
 		}
 
 		let post = movies.map((movie) => movie.dataValues);
+		console.log(post);
 		post.sort((a, b) => {
-			return (b.for ?? 0) - (b.against ?? 0) - ((a.for ?? 0) - (a.against ?? 0));
+			let diff = (b.for ?? 0) - (b.against ?? 0) - ((a.for ?? 0) - (a.against ?? 0));
+			if (diff == 0) return 0;
+			return diff;
 		});
 
 		return json(post);
