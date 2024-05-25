@@ -24,7 +24,7 @@ export const POST = (async ({ request, fetch, cookies }) => {
 	if (vote) {
 		let count = await Vote.update(
 			{
-				type: data.type
+				type: (data.type == vote.dataValues.type ? null : data.type)
 			},
 			{
 				where: {
