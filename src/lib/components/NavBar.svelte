@@ -13,9 +13,9 @@
 </script>
 
 <div class="fixed top-0 navbar bg-base-200 px-2 z-[1] w-full">
-	<!-- <div class="flex-1 gap-2">
-		<SearchBar bind:movies/>
-	</div> -->
+	<div class="flex-1 gap-2">
+		<!-- <SearchBar bind:movies/> -->
+	</div>
 	<!-- <span class="flex-1">
 		Movie Night
 	</span> -->
