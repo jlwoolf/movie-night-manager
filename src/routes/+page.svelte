@@ -5,6 +5,7 @@
 	import MovieOfTheWeek from '$lib/components/MovieOfTheWeek.svelte';
 
 	let movies: MovieType[] = [];
+	let admin: Boolean = false;
 	/** @type {import('./$types').PageData} */
 	export let data;
 	movies = data.movies;
@@ -13,6 +14,7 @@
 <div class="min-h-screen bg-base-300">
 	<NavBar bind:movies />
 	<MovieList bind:movies />
+	
 	<MovieOfTheWeek bind:movies />
 </div>
 

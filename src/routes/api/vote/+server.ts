@@ -4,10 +4,13 @@ import { error, json, type RequestHandler } from '@sveltejs/kit';
 import crypto from 'node:crypto';
 
 export const POST = (async ({ request, fetch, cookies }) => {
-	let sessionID = cookies.get('sessionID');
-	if (!sessionID) {
-		sessionID = crypto.randomBytes(32).toString('base64');
-		cookies.set('sessionID', sessionID, { path: '/' });
+	let voteSession = cookies.get('voteSession');
+	if (!voteSession) {
+		let date = new Date();
+		date.setHours(23,59,59,999);
+
+		voteSession = crypto.randomBytes(32).toString('base64');
+		cookies.set('voteSession', voteSession, { path: '/', expires: date });
 	}
 
 	let data = await request.json();
@@ -16,7 +19,7 @@ export const POST = (async ({ request, fetch, cookies }) => {
 
 	const vote = await Vote.findOne({
 		where: {
-			voter: sessionID,
+			voter: voteSession,
 			MovieId: data.movieId
 		}
 	});
@@ -28,7 +31,7 @@ export const POST = (async ({ request, fetch, cookies }) => {
 			},
 			{
 				where: {
-					voter: sessionID,
+					voter: voteSession,
 					MovieId: data.movieId
 				}
 			}
@@ -36,7 +39,7 @@ export const POST = (async ({ request, fetch, cookies }) => {
 	} else {
 		let vote = await Vote.create({
 			MovieId: data.movieId,
-			voter: sessionID,
+			voter: voteSession,
 			type: data.type
 		});
 	}
@@ -67,5 +70,5 @@ export const POST = (async ({ request, fetch, cookies }) => {
 		}
 	);
 
-	return json({ sessionID });
+	return json({ voteSession });
 }) satisfies RequestHandler;
