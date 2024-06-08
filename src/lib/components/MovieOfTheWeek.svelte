@@ -6,9 +6,12 @@
 	import { API_URL, fetchMovies } from '$lib/utils';
 
 	export let movies: MovieType[];
-	$: movie = movies.length > 0 && movies.filter((a) => !a.watched)[0] ? movies.filter((a) => !a.watched)[0] : null;
+	$: movie =
+		movies.length > 0 && movies.filter((a) => !a.watched)[0]
+			? movies.filter((a) => !a.watched)[0]
+			: null;
 
-	let dismiss: boolean = false;
+	let dismiss: boolean = true;
 	let confirm: boolean = false;
 
 	let markAsWatchedOnClick = () => {
@@ -18,7 +21,7 @@
 
 	let confirmClose = () => {
 		let modal = <HTMLDialogElement>document.getElementById('confirm_modal');
-		modal.close();
+		modal.close()
 	};
 
 	let markAsWatched = async () => {
@@ -37,9 +40,14 @@
 	};
 </script>
 
-{#if !dismiss}
-	{#if movie}
-		<div class="toast translate-x-[90%]">
+{#if movie}
+	<button
+		disabled={!dismiss}
+		on:click={() => {
+			dismiss = false;
+		}}
+	>
+		<div class="toast transition-all {dismiss ? ' translate-x-[90%]' : ''}">
 			<div class="rounded-3xl bg-primary p-2">
 				<MovieCard {movie} custom={true}>
 					<div class="card-body p-2 sm:p-4">
@@ -72,7 +80,7 @@
 				</MovieCard>
 			</div>
 		</div>
-	{/if}
+	</button>
 {/if}
 
 <dialog id="confirm_modal" class="modal">
