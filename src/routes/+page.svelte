@@ -4,6 +4,8 @@
 	import type { MovieType } from '$lib/db/movie';
 	import MovieOfTheWeek from '$lib/components/MovieOfTheWeek.svelte';
 	import LoginModal from '$lib/components/LoginModal.svelte';
+	import { API_URL, fetchMovies } from '$lib/utils';
+	import { onMount } from 'svelte';
 
 	let movies: MovieType[] = [];
 	let admin: boolean = false;
@@ -12,6 +14,24 @@
 	export let data;
 	movies = data.movies;
 	admin = data.admin;
+
+	onMount(() => {
+		let lastRefresh = new Date();
+		setInterval(async () => {
+			const res = await fetch(`${API_URL}/movie/lastupdate`);
+			if(!res.body)
+				return
+
+			let data = await res.json();
+			let lastUpdate = new Date(data.lastupdate)
+
+			if(lastRefresh >= lastUpdate)
+				return
+
+			movies = await fetchMovies();
+			lastRefresh = lastUpdate;
+		}, 500);
+	});
 </script>
 
 <div

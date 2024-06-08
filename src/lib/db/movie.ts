@@ -19,6 +19,7 @@ export class Movie extends Model {
 	declare for: number | null;
 	declare against: number | null;
 	declare watched: boolean;
+	declare updatedAt: string;
 }
 
 Movie.init(
