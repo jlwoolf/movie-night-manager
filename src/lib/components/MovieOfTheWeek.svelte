@@ -13,6 +13,7 @@
 			: null;
 
 	export let dismiss: boolean = false;
+	export let admin: boolean = false;
 	let confirm: boolean = false;
 
 	let markAsWatchedOnClick = () => {
@@ -84,14 +85,16 @@
 								</button>
 							</div>
 
-							<button
-								class="btn btn-primary tooltip tooltip-left h-8 min-h-0 w-8 p-2 text-xs"
-								data-tip="Mark as Watched"
-								on:click={markAsWatchedOnClick}
-								tabindex={dismiss ? -1 : 0}
-							>
-								<Icon src={Check} />
-							</button>
+							{#if admin}
+								<button
+									class="btn btn-primary tooltip tooltip-left h-8 min-h-0 w-8 p-2 text-xs"
+									data-tip="Mark as Watched"
+									on:click={markAsWatchedOnClick}
+									tabindex={dismiss ? -1 : 0}
+								>
+									<Icon src={Check} />
+								</button>
+							{/if}
 						</div>
 					</div>
 				</div>

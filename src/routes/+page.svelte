@@ -33,7 +33,7 @@
 	<NavBar bind:movies />
 	<MovieList bind:movies bind:admin />
 	<LoginModal bind:movies bind:admin />
-	<MovieOfTheWeek bind:movies bind:dismiss />
+	<MovieOfTheWeek bind:movies bind:dismiss bind:admin />
 </div>
 
 <style>
