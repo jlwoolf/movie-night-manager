@@ -43,64 +43,66 @@
 	};
 </script>
 
-{#if movie}
-	<div class="toast transition-all {dismiss ? ' translate-x-[90%]' : ''}">
-		<div
-			class="rounded-3xl bg-primary p-2"
-			on:click={(e) => {
-				dismiss = false;
-				e.stopPropagation();
-			}}
-			on:keypress={(e) => {}}
-			on:keydown={(e) => {
-				if (e.key == ' ' || e.key == '\n') {
-					dismiss = !dismiss;
+<div class="fixed top-0 left-0 w-screen h-full pointer-events-none">
+	{#if movie}
+		<div class="toast absolute transition-all {dismiss ? ' translate-x-[90%]' : ''} z-1 pointer-events-auto">
+			<div
+				class="rounded-3xl bg-primary p-2"
+				on:click={(e) => {
+					dismiss = false;
 					e.stopPropagation();
-				}
-			}}
-			on:keyup={(e) => {}}
-			role="tab"
-			tabindex="0"
-		>
-			<MovieCard {movie} custom={true}>
-				<div class="card-body p-2 sm:p-4">
-					<div class="flex h-full flex-row">
-						<div class="flex flex-1 flex-col">
-							<h1 class="card-title text-base sm:text-xl">Movie of the Week!</h1>
-							<p class="text-wrap text-sm sm:text-lg">{movie.title}</p>
-						</div>
-						<div class="flex flex-col justify-end">
-							<div class="flex-1">
-								<button
-									class="btn tooltip tooltip-left h-8 min-h-0 w-8 p-2 text-xs"
-									data-tip="Dismiss"
-									on:click={(e) => {
-										dismiss = true;
-										e.stopPropagation();
-									}}
-									tabindex={dismiss ? -1 : 0}
-								>
-									<Icon src={XMark} />
-								</button>
+				}}
+				on:keypress={(e) => {}}
+				on:keydown={(e) => {
+					if (e.key == ' ' || e.key == '\n') {
+						dismiss = !dismiss;
+						e.stopPropagation();
+					}
+				}}
+				on:keyup={(e) => {}}
+				role="tab"
+				tabindex="0"
+			>
+				<MovieCard {movie} custom={true}>
+					<div class="card-body p-2 sm:p-4">
+						<div class="flex h-full flex-row">
+							<div class="flex flex-1 flex-col">
+								<h1 class="card-title text-base sm:text-xl">Movie of the Week!</h1>
+								<p class="text-wrap text-sm sm:text-lg">{movie.title}</p>
 							</div>
+							<div class="flex flex-col justify-end">
+								<div class="flex-1">
+									<button
+										class="btn tooltip tooltip-left h-8 min-h-0 w-8 p-2 text-xs"
+										data-tip="Dismiss"
+										on:click={(e) => {
+											dismiss = true;
+											e.stopPropagation();
+										}}
+										tabindex={dismiss ? -1 : 0}
+									>
+										<Icon src={XMark} />
+									</button>
+								</div>
 
-							{#if admin}
-								<button
-									class="btn btn-primary tooltip tooltip-left h-8 min-h-0 w-8 p-2 text-xs"
-									data-tip="Mark as Watched"
-									on:click={markAsWatchedOnClick}
-									tabindex={dismiss ? -1 : 0}
-								>
-									<Icon src={Check} />
-								</button>
-							{/if}
+								{#if admin}
+									<button
+										class="btn btn-primary tooltip tooltip-left h-8 min-h-0 w-8 p-2 text-xs"
+										data-tip="Mark as Watched"
+										on:click={markAsWatchedOnClick}
+										tabindex={dismiss ? -1 : 0}
+									>
+										<Icon src={Check} />
+									</button>
+								{/if}
+							</div>
 						</div>
 					</div>
-				</div>
-			</MovieCard>
+				</MovieCard>
+			</div>
 		</div>
-	</div>
-{/if}
+	{/if}
+</div>
 
 <dialog id="confirm_modal" class="confirm-modal modal">
 	<div class="modal-box">
