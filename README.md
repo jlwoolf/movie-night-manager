@@ -1,38 +1,13 @@
-# create-svelte
+# Movie Night Manager
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Simple site to allow for managing friend movie nights! Create movie suggestions and vote on them!
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## Environment variables
+- `OMDB_API_KEY`: Your key for the OMDB API. Can be gotten here: https://www.omdbapi.com/
+- `ADMIN_PASSWORD`: The admin password for the admin page. Leaving this as blank will disable the admin page.
+- `BASE_URL` **(optional)**: The base url of the site. Set this if you will be hosting this site behind a reverse proxy that has a path.
+  
+  e.g If your site looks like `https://example.com/movies`, then set `BASE_URL=/movies`. The current traefik configuration in `docker-compose.yml` would require this value to be set to `/movies`
 
 ## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Run `docker compose build` to build the site and `docker compose up` to launch it

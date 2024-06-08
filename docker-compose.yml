@@ -7,7 +7,7 @@ networks:
 services:
   app:
     container_name: movie-app
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
       target: run
