@@ -77,13 +77,10 @@
 			let input = <HTMLInputElement>e.target;
 			let num = parseInt(input.value);
 
-			console.log(typeof num == 'undefined');
 			if (typeof num == 'undefined') {
 				input.value = (movie[variant] ?? '-').toString();
 				return input.value;
 			}
-
-			console.log(num);
 			const res = await fetch(`${API_URL}/movie/update`, {
 				method: 'POST',
 				body: JSON.stringify({

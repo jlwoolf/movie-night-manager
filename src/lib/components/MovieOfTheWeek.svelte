@@ -53,7 +53,6 @@
 			}}
 			on:keypress={(e) => {}}
 			on:keydown={(e) => {
-				console.log(e.key);
 				if (e.key == ' ' || e.key == '\n') {
 					dismiss = !dismiss;
 					e.stopPropagation();

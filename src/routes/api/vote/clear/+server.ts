@@ -12,7 +12,5 @@ export const POST = (async ({ request }) => {
 		}
 	});
 
-    console.log(count)
-
 	return json(count);
 }) satisfies RequestHandler;

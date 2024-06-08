@@ -41,7 +41,6 @@
 	}}
 	on:keypress={(e) => {}}
 	on:keydown={(e) => {
-		console.log(e.key);
 		if (e.key == ' ' || e.key == '\n') {
 			if (dismiss == false) dismiss = true;
 		}
