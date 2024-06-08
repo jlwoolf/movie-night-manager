@@ -15,7 +15,7 @@
 </script>
 
 <div
-	class="absolute left-0 top-0 h-screen w-screen bg-base-300"
+	class="h-full w-full"
 	on:click={(e) => {
 		if (dismiss == false) dismiss = true;
 	}}
@@ -25,7 +25,7 @@
 		if (e.key == ' ' || e.key == '\n') {
 			if (dismiss == false) dismiss = true;
 		}
-	}}										
+	}}
 	on:keyup={(e) => {}}
 	role="tab"
 	tabindex="-1"
