@@ -6,7 +6,7 @@
 	import { API_URL, fetchMovies } from '$lib/utils';
 
 	export let movies: MovieType[];
-	$: movie = movies[0] ?? null;
+	$: movie = movies.length > 0 && movies.filter((a) => !a.watched)[0] ? movies.filter((a) => !a.watched)[0] : null;
 
 	let dismiss: boolean = false;
 	let confirm: boolean = false;
@@ -19,9 +19,11 @@
 	let confirmClose = () => {
 		let modal = <HTMLDialogElement>document.getElementById('confirm_modal');
 		modal.close();
-	}
+	};
 
 	let markAsWatched = async () => {
+		if (!movie) return;
+
 		const res = await fetch(`${API_URL}/movie/update`, {
 			method: 'POST',
 			body: JSON.stringify({
@@ -37,7 +39,7 @@
 
 {#if !dismiss}
 	{#if movie}
-		<div class="toast">
+		<div class="toast translate-x-[90%]">
 			<div class="rounded-3xl bg-primary p-2">
 				<MovieCard {movie} custom={true}>
 					<div class="card-body p-2 sm:p-4">
@@ -75,8 +77,8 @@
 
 <dialog id="confirm_modal" class="modal">
 	<div class="modal-box">
-		<h3 class="text-lg font-bold pb-4">Are you sure you want to mark this movie as watched?</h3>
-		<div class="w-full flex justify-end gap-2">
+		<h3 class="pb-4 text-lg font-bold">Are you sure you want to mark this movie as watched?</h3>
+		<div class="flex w-full justify-end gap-2">
 			<button class="btn max-h-0" on:click={markAsWatched}>Yes</button>
 			<button class="btn btn-primary max-h-0" on:click={confirmClose}>No</button>
 		</div>

@@ -8,7 +8,7 @@ export type SessionType = {
 };
 
 export class Session extends Model {
-	declare voter: string;
+	declare session: string;
 	declare admin: boolean;
 }
 

@@ -4,6 +4,7 @@
 	import { flip } from 'svelte/animate';
 
 	export let movies: MovieType[];
+	export let admin: boolean = false;
 
 	import { crossfade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
@@ -29,19 +30,43 @@
 	$: sortedMovies = movies.sort((a, b) => {
 		return (b.for ?? 0) - (b.against ?? 0) - ((a.for ?? 0) - (a.against ?? 0));
 	});
+
+	$: watchedMovies = sortedMovies.filter((a) => a.watched);
+	$: unwatchedMovies = sortedMovies.filter((a) => !a.watched);
 </script>
 
-<div class="flex w-full flex-col gap-2 p-2 mt-16">
-	{#each sortedMovies as movie (movie.id)}
+<div class="mt-16 flex w-full flex-col gap-2 p-2">
+	{#if admin && unwatchedMovies.length > 0}
+		<div class="flex w-full justify-center">
+			<h2 class="text-3xl">Unwatched Movies</h2>
+		</div>
+	{/if}
+	{#each unwatchedMovies as movie (movie.id)}
 		<div
 			class="flex w-full flex-col items-center"
 			in:receive={{ key: movie.id }}
 			out:send={{ key: movie.id }}
 			animate:flip={{ duration: 200 }}
 		>
-			<MovieCard bind:movies {movie} id={`ml-${movie.id}`} showVotes={true}/>
+			<MovieCard bind:movies {movie} id={`ml-${movie.id}`} showVotes={true} bind:admin />
 		</div>
 	{/each}
+
+	{#if admin && watchedMovies.length > 0}
+		<div class="flex w-full justify-center">
+			<h2 class="text-3xl">Watched Movies</h2>
+		</div>
+		{#each watchedMovies as movie (movie.id)}
+			<div
+				class="flex w-full flex-col items-center"
+				in:receive={{ key: movie.id }}
+				out:send={{ key: movie.id }}
+				animate:flip={{ duration: 200 }}
+			>
+				<MovieCard bind:movies {movie} id={`ml-${movie.id}`} showVotes={true} bind:admin />
+			</div>
+		{/each}
+	{/if}
 </div>
 
 <style>

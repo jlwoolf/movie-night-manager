@@ -7,7 +7,7 @@ export const POST = (async ({ request, fetch, cookies }) => {
 	let voteSession = cookies.get('voteSession');
 	if (!voteSession) {
 		let date = new Date();
-		date.setHours(23,59,59,999);
+		date.setHours(23, 59, 59, 999);
 
 		voteSession = crypto.randomBytes(32).toString('base64');
 		cookies.set('voteSession', voteSession, { path: '/', expires: date });
@@ -17,17 +17,21 @@ export const POST = (async ({ request, fetch, cookies }) => {
 	if (!data.type) return error(400, "Type of 'for' or 'against' required to vote.");
 	if (!data.movieId) return error(400, 'Movie ID required to vote.');
 
-	const vote = await Vote.findOne({
+	let vote = await Vote.findOne({
 		where: {
 			voter: voteSession,
 			MovieId: data.movieId
 		}
 	});
 
+	let oldType = null;
+	let newType = null;
 	if (vote) {
-		let count = await Vote.update(
+		oldType = vote.type;
+		newType = data.type == vote.type ? null : data.type;
+		await Vote.update(
 			{
-				type: (data.type == vote.dataValues.type ? null : data.type)
+				type: newType
 			},
 			{
 				where: {
@@ -37,31 +41,41 @@ export const POST = (async ({ request, fetch, cookies }) => {
 			}
 		);
 	} else {
-		let vote = await Vote.create({
+		vote = await Vote.create({
 			MovieId: data.movieId,
 			voter: voteSession,
 			type: data.type
 		});
+		newType = vote.type;
 	}
 
-	let forVotes = await Vote.findAndCountAll({
+	let movie = await Movie.findOne({
 		where: {
-			MovieId: data.movieId,
-			type: 'for'
+			id: data.movieId
 		}
 	});
 
-	let againstVotes = await Vote.findAndCountAll({
-		where: {
-			MovieId: data.movieId,
-			type: 'against'
-		}
-	});
+	if (!movie)
+		return error(500, "Couldn't find movie to update vote count for. This should not happen.");
 
-	let movie = await Movie.update(
+	if (oldType == newType) return json({ voteSession });
+
+	if (newType == 'for') {
+		movie.for = (movie.for ?? 0) + 1;
+	} else if (newType == 'against') {
+		movie.against = (movie.against ?? 0) + 1;
+	}
+
+	if (oldType == 'for') {
+		movie.for = (movie.for ?? 0) - 1;
+	} else if (oldType == 'against') {
+		movie.against = (movie.against ?? 0) - 1;
+	}
+
+	await Movie.update(
 		{
-			for: forVotes.count,
-			against: againstVotes.count
+			for: movie.for,
+			against: movie.against
 		},
 		{
 			where: {

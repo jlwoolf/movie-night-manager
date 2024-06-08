@@ -29,7 +29,6 @@
 
 		let movie = filteredMovies[0];
 		if (movie ?? false) {
-			console.log(movie);
 			const el = document.getElementById(`ml-${movie.id}`);
 			el?.scrollIntoView({
 				behavior: 'smooth'
