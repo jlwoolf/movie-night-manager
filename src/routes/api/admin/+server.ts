@@ -32,6 +32,11 @@ let getSession = async (cookies: Cookies) => {
 };
 
 export const GET = (async ({ request, cookies }) => {
+	if(!ADMIN_PASSWORD)
+		return json({
+			admin: false
+	})
+
 	let session = await getSession(cookies);
 	if (!session) return error(500, 'Error fetching a new or existing user session');
 
@@ -41,6 +46,11 @@ export const GET = (async ({ request, cookies }) => {
 }) satisfies RequestHandler;
 
 export const POST = (async ({ request, cookies }) => {
+if (!ADMIN_PASSWORD)
+	return json({
+		admin: false
+	});
+
 	let session = await getSession(cookies);
 	if (!session) return error(500, 'Error fetching a new or existing user session');
 
