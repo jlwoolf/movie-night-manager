@@ -35,7 +35,7 @@
 	$: unwatchedMovies = sortedMovies.filter((a) => !a.watched);
 </script>
 
-<div class="mt-16 flex w-full flex-col gap-2 p-2">
+<div class="flex w-full flex-col gap-2 p-2">
 	{#if admin && unwatchedMovies.length > 0}
 		<div class="flex w-full justify-center">
 			<h2 class="text-3xl">Unwatched Movies</h2>
