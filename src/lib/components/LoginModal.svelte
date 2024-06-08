@@ -30,8 +30,6 @@
 
 			movies = await fetchMovies();
 		}
-
-		
 	};
 
 	let onSubmit = async (e: SubmitEvent) => {
@@ -79,7 +77,7 @@
 	</button>
 </div>
 
-<dialog id="login_modal" class="modal z-[-1]">
+<dialog id="login_modal" class="login-modal modal">
 	<div class="modal-box overflow-y-visible">
 		<form class="flex w-full flex-row gap-2" on:submit={onSubmit}>
 			<!-- if there is a button in form, it will close the modal -->
@@ -120,5 +118,13 @@
 		position: absolute;
 		rotate: 90deg;
 		translate: 10px -50%;
+	}
+
+	.login-modal {
+		display: none;
+	}
+
+	.login-modal[open] {
+		display: grid;
 	}
 </style>

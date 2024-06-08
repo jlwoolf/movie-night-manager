@@ -162,7 +162,9 @@
 						<Icon src={ArrowUp} />
 					</button>
 					{#if admin}
-						<DynamicInput value={`${movie.for}`} onFocusout={onFocusout('for')} />
+						<div>
+							<DynamicInput value={`${movie.for}`} onFocusout={onFocusout('for')} />
+						</div>
 					{:else}
 						<p class="flex items-center justify-center">
 							{#if movie.for == null}
