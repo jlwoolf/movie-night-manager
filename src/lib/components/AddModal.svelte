@@ -56,7 +56,7 @@
 	};
 </script>
 
-<dialog {id} class="modal h-full overflow-y-scroll add-modal">
+<dialog {id} class="add-modal modal h-full overflow-y-scroll">
 	<div class="modal-box absolute top-0 m-16 flex overflow-y-visible">
 		<div class="dropdown dropdown-open w-full">
 			<input

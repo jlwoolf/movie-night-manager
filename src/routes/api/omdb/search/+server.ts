@@ -31,7 +31,7 @@ export const POST = (async ({ request, ...event }) => {
 	});
 	let watchedIDs = watched.map((w) => w.dataValues.imdbID);
 
-	movies = movies.filter((movie) => !(watchedIDs.includes(movie.imdbID)));
+	movies = movies.filter((movie) => !watchedIDs.includes(movie.imdbID));
 
 	return json(movies);
 }) satisfies RequestHandler;

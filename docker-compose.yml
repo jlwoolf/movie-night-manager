@@ -13,7 +13,7 @@ services:
       target: run
     restart: always
     ports:
-      - "3000"
+      - '3000'
     env_file:
       - .env
     volumes:
@@ -21,12 +21,12 @@ services:
     networks:
       - movie-app
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.movie-app.loadbalancer.server.port=3000"
+      - 'traefik.enable=true'
+      - 'traefik.http.services.movie-app.loadbalancer.server.port=3000'
       # https/websecure
-      - "traefik.http.routers.movie-app.entrypoints=web,websecure"
-      - "traefik.http.routers.movie-app.rule=Host(`jlwoolf.com`) && PathPrefix(`/movies`)"
-      - "traefik.http.routers.movie-app.tls=true"
-      - "traefik.http.routers.movie-app.tls.certresolver=production"
-      - "traefik.http.routers.movie-app.tls.domains[0].main=jlwoolf.com"
-      - "traefik.http.routers.movie-app.tls.domains[0].sans=*.jlwoolf.com"
+      - 'traefik.http.routers.movie-app.entrypoints=web,websecure'
+      - 'traefik.http.routers.movie-app.rule=Host(`jlwoolf.com`) && PathPrefix(`/movies`)'
+      - 'traefik.http.routers.movie-app.tls=true'
+      - 'traefik.http.routers.movie-app.tls.certresolver=production'
+      - 'traefik.http.routers.movie-app.tls.domains[0].main=jlwoolf.com'
+      - 'traefik.http.routers.movie-app.tls.domains[0].sans=*.jlwoolf.com'

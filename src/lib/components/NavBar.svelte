@@ -16,7 +16,7 @@
 <div class="navbar sticky top-0 z-[1] w-full bg-base-200 px-2">
 	<div class="flex-none gap-2">
 		<!-- <SearchBar bind:movies/> -->
-		<img src="{base}/favicon.svg" class="w-12 h-12" alt="Movie Logo"/>
+		<img src="{base}/favicon.svg" class="h-12 w-12" alt="Movie Logo" />
 	</div>
 	<div class="w-full flex-1 items-center justify-center">
 		<h1 class="text-lg font-bold">Movie Night Manager</h1>

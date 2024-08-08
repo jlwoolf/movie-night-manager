@@ -23,7 +23,7 @@ Session.init(
 		session: {
 			type: DataTypes.STRING,
 			allowNull: false,
-            unique: true
+			unique: true
 		},
 		admin: {
 			type: DataTypes.BOOLEAN,
@@ -42,7 +42,7 @@ Session.init(
 );
 
 try {
-	await Session.sync({alter: true});
+	await Session.sync({ alter: true });
 } catch (e: any) {}
 
 export default Session;

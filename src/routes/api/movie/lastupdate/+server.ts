@@ -3,7 +3,6 @@ import sequelize from '$lib/db/sequelize';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET = (async ({}) => {
-	
 	let movie = await Movie.findOne({
 		logging: false,
 		order: [['updatedAt', 'DESC']]

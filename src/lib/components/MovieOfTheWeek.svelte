@@ -43,9 +43,13 @@
 	};
 </script>
 
-<div class="fixed top-0 left-0 w-screen h-full pointer-events-none">
+<div class="pointer-events-none fixed left-0 top-0 h-full w-screen">
 	{#if movie}
-		<div class="toast absolute transition-all {dismiss ? ' translate-x-[90%]' : ''} z-1 pointer-events-auto">
+		<div
+			class="toast absolute transition-all {dismiss
+				? ' translate-x-[90%]'
+				: ''} z-1 pointer-events-auto"
+		>
 			<div
 				class="rounded-3xl bg-primary p-2"
 				on:click={(e) => {

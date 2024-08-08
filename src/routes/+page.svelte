@@ -19,14 +19,12 @@
 		let lastRefresh = new Date();
 		setInterval(async () => {
 			const res = await fetch(`${API_URL}/movie/lastupdate`);
-			if(!res.body)
-				return
+			if (!res.body) return;
 
 			let data = await res.json();
-			let lastUpdate = new Date(data.lastupdate)
+			let lastUpdate = new Date(data.lastupdate);
 
-			if(lastRefresh >= lastUpdate)
-				return
+			if (lastRefresh >= lastUpdate) return;
 
 			movies = await fetchMovies();
 			lastRefresh = lastUpdate;
