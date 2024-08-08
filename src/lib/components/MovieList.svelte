@@ -3,11 +3,15 @@
 	import type { MovieType } from '$lib/db/movie';
 	import { flip } from 'svelte/animate';
 
-	export let movies: MovieType[];
-	export let admin: boolean = false;
+	let movies: MovieType[];
+	MoviesStore.subscribe((data) => (movies = data));
+
+	let admin: boolean = false;
+	AdminStore.subscribe((data) => (admin = data));
 
 	import { crossfade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import { AdminStore, MoviesStore } from '$lib/stores';
 
 	let [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200),
@@ -48,7 +52,7 @@
 			out:send={{ key: movie.id }}
 			animate:flip={{ duration: 200 }}
 		>
-			<MovieCard bind:movies {movie} id={`ml-${movie.id}`} showVotes={true} bind:admin />
+			<MovieCard {movie} id={`ml-${movie.id}`} showVotes={true} />
 		</div>
 	{/each}
 
@@ -63,7 +67,7 @@
 				out:send={{ key: movie.id }}
 				animate:flip={{ duration: 200 }}
 			>
-				<MovieCard bind:movies {movie} id={`ml-${movie.id}`} showVotes={true} bind:admin />
+				<MovieCard {movie} id={`ml-${movie.id}`} showVotes={true} />
 			</div>
 		{/each}
 	{/if}

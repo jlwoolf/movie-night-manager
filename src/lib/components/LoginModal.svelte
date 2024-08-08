@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { MovieType } from '$lib/db/movie';
 	import { API_URL, fetchMovies } from '$lib/utils';
+	import { AdminStore, MoviesStore } from '$lib/stores';
 
-	export let admin: boolean;
-	export let movies: MovieType[] = [];
+	let admin: boolean;
+	AdminStore.subscribe((data) => (admin = data));
+	let movies: MovieType[] = [];
+	MoviesStore.subscribe((data) => (movies = data));
 	let value: string = '';
 	let error: boolean = false;
 	let errorMsg: string = '';
@@ -25,10 +28,10 @@
 			});
 
 			let data = await res.json();
-			admin = data.admin;
 			value = '';
 
-			movies = await fetchMovies();
+			AdminStore.set(data.admin);
+			MoviesStore.set(await fetchMovies());
 		}
 	};
 
@@ -50,12 +53,13 @@
 		}
 
 		let data = await res.json();
-		admin = data.admin;
 		value = '';
+
+		AdminStore.set(data.admin);
+		MoviesStore.set(await fetchMovies());
+
 		let modal = <HTMLDialogElement>document.getElementById('login_modal');
 		modal.close();
-
-		movies = await fetchMovies();
 	};
 
 	let onValueChange = () => {

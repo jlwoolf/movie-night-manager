@@ -2,9 +2,15 @@
 	import type { MovieType } from '$lib/db/movie';
 	import MovieCard from './MovieCard.svelte';
 	import { API_URL, fetchMovies } from '$lib/utils';
+	import { MoviesStore } from '$lib/stores';
+	import { redirect } from '@sveltejs/kit';
+	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
 
 	export let id: string;
-	export let movies: MovieType[];
+
+	let movies: MovieType[];
+	MoviesStore.subscribe((data) => (movies = data));
 
 	let search: MovieType[] = [];
 	let input: HTMLInputElement;
@@ -30,7 +36,7 @@
 				body: JSON.stringify(movie)
 			});
 
-			movies = await fetchMovies();
+			MoviesStore.set(await fetchMovies());
 
 			let attemptedMovie = await res.json();
 			if (attemptedMovie.watched) {
@@ -46,6 +52,8 @@
 			let newMovie = movies.find((m) => m.imdbID == movie.imdbID);
 			if (!newMovie) return;
 
+			goto(`${base}/`);
+
 			setTimeout(() => {
 				const el = document.getElementById(`ml-${newMovie.id}`);
 				el?.scrollIntoView({
@@ -56,7 +64,7 @@
 	};
 </script>
 
-<dialog {id} class="modal h-full overflow-y-scroll add-modal">
+<dialog {id} class="add-modal modal h-full overflow-y-scroll">
 	<div class="modal-box absolute top-0 m-16 flex overflow-y-visible">
 		<div class="dropdown dropdown-open w-full">
 			<input

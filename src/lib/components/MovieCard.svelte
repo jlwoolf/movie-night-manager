@@ -12,16 +12,21 @@
 		ArrowDownOnSquare
 	} from 'svelte-hero-icons';
 	import DynamicInput from './DynamicInput.svelte';
+	import { AdminStore, MoviesStore } from '$lib/stores';
 
 	export let movie: MovieType;
-	export let movies: MovieType[] | null = null;
 	export let small: boolean = true;
 	export let id: undefined | string = undefined;
 	export let showVotes: boolean = false;
 	export let custom: boolean = false;
-	export let admin: boolean = false;
 
+	let admin: boolean = false;
+	AdminStore.subscribe((data) => (admin = data));
+
+	let movies: MovieType[] | null = null;
 	let figureClass = small ? ' w-1/4' : ' w-1/2';
+
+	MoviesStore.subscribe((data) => (movies = data));
 
 	let onRemoveClick = async (e: MouseEvent) => {
 		const res = await fetch(`${API_URL}/movie/remove`, {
@@ -31,7 +36,7 @@
 			})
 		});
 
-		movies = await fetchMovies();
+		MoviesStore.set(await fetchMovies());
 	};
 
 	let onSetWatchedClick = async (e: MouseEvent) => {
@@ -43,7 +48,7 @@
 			})
 		});
 
-		movies = await fetchMovies();
+		MoviesStore.set(await fetchMovies());
 	};
 
 	export let onForClick = async (e: MouseEvent) => {
@@ -55,7 +60,7 @@
 			})
 		});
 
-		movies = await fetchMovies();
+		MoviesStore.set(await fetchMovies());
 	};
 
 	export let onAgainstClick = async (e: MouseEvent) => {
@@ -67,7 +72,7 @@
 			})
 		});
 
-		movies = await fetchMovies();
+		MoviesStore.set(await fetchMovies());
 	};
 
 	let onFocusout = (variant: 'for' | 'against') => {
@@ -96,7 +101,7 @@
 				})
 			});
 
-			movies = await fetchMovies();
+			MoviesStore.set(await fetchMovies());
 
 			return `${num}`;
 		};
@@ -111,10 +116,10 @@
 			<img src={movie.image} alt="Movie" />
 		{/if}
 	</figure>
-	{#if custom}
-		<slot />
-	{:else}
-		<div class="card-body w-full flex-col py-4 sm:flex-row">
+	<div class="card-body w-full flex-col py-4 sm:flex-row">
+		{#if custom}
+			<slot />
+		{:else}
 			<slot />
 
 			{#if small}
@@ -192,8 +197,8 @@
 					{/if}
 				</div>
 			{/if}
-		</div>
-	{/if}
+		{/if}
+	</div>
 </div>
 
 <style>
