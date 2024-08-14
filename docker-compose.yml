@@ -11,6 +11,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: run
+      args:
+        - BASE_PATH=${BASE_PATH:-'/movies'}
     restart: always
     ports:
       - '3000'

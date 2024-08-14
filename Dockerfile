@@ -1,5 +1,7 @@
 FROM node:latest as build
 
+ARG BASE_PATH='/movies'
+
 WORKDIR /usr/app
 COPY package*.json .
 RUN npm install

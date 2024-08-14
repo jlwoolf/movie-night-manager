@@ -2,7 +2,6 @@ import adapter from '@sveltejs/adapter-node';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 const base_path = process.env?.BASE_PATH ?? '/movies';
-console.log(base_path);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
