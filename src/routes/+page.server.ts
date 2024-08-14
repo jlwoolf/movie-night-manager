@@ -1,6 +1,6 @@
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 import { base } from '$app/paths';
-import { PUBLIC_VARIANT } from '$env/static/public';
+import { env } from '$env/dynamic/private';
 
 export const load = (async ({ fetch }) => {
 	const adminRes = await fetch(`${base}/api/admin`, {
@@ -21,10 +21,13 @@ export const load = (async ({ fetch }) => {
 	});
 
 	let data = await res.json();
+	let variant: 'book' | 'movie' = env?.VARIANT === 'book' ? 'book' : 'movie';
+	let page_title = env?.PAGE_TITLE ?? 'Movie Night Manager';
 
 	return {
 		movies: data,
 		admin: adminData.admin,
-		variant: PUBLIC_VARIANT
+		variant,
+		page_title
 	};
-}) satisfies PageLoad;
+}) satisfies PageServerLoad;

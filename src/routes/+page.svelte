@@ -6,23 +6,25 @@
 	import LoginModal from '$lib/components/LoginModal.svelte';
 	import { API_URL, fetchMovies } from '$lib/utils';
 	import { onMount } from 'svelte';
-	import { PUBLIC_VARIANT } from '$env/static/public';
 	import { base } from '$app/paths';
+	import type { PageServerData } from './$types';
 
 	let movies: Movie[] = [];
 	let admin: boolean = false;
 	let dismiss = true;
 	let variant: 'book' | 'movie' = 'movie';
-	/** @type {import('./$types').PageServerData} */
-	export let data;
+	let page_title: string;
+
+	export let data: PageServerData;
 	movies = data.movies;
 	admin = data.admin;
 	variant = data.variant;
+	page_title = data.page_title;
 
 	let link: HTMLLinkElement | null;
 
 	onMount(() => {
-		if (PUBLIC_VARIANT === 'book') {
+		if (variant === 'book') {
 			link = document.querySelector("link[rel~='icon']");
 			if (!link) {
 				link = document.createElement('link');
@@ -65,7 +67,7 @@
 	role="tab"
 	tabindex="-1"
 >
-	<NavBar bind:movies />
+	<NavBar bind:movies bind:variant bind:page_title />
 	<MovieList bind:movies bind:admin />
 	<LoginModal bind:movies bind:admin />
 	<MovieOfTheWeek bind:movies bind:dismiss bind:admin />

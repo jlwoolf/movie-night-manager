@@ -17,7 +17,7 @@ const config = {
 		adapter: adapter(),
 		paths: {
 			base: base_url
-		}
+		},
 	}
 };
 
