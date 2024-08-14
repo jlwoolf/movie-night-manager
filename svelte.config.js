@@ -1,8 +1,8 @@
 import adapter from '@sveltejs/adapter-node';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-const base_url = process.env?.BASE_URL ?? '/movies';
-console.log(base_url);
+const base_path = process.env?.BASE_PATH ?? '/movies';
+console.log(base_path);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -16,7 +16,7 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
 		paths: {
-			base: base_url
+			base: base_path
 		},
 	}
 };
