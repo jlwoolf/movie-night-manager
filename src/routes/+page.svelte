@@ -1,19 +1,37 @@
 <script lang="ts">
 	import MovieList from '$lib/components/MovieList.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
-	import type { MovieType } from '$lib/db/movie';
+	import type { Movie } from '$lib/db/movie';
 	import MovieOfTheWeek from '$lib/components/MovieOfTheWeek.svelte';
 	import LoginModal from '$lib/components/LoginModal.svelte';
 	import { API_URL, fetchMovies } from '$lib/utils';
 	import { onMount } from 'svelte';
+	import { PUBLIC_VARIANT } from '$env/static/public';
+	import { base } from '$app/paths';
 
-	let movies: MovieType[] = [];
+	let movies: Movie[] = [];
 	let admin: boolean = false;
 	let dismiss = true;
-	/** @type {import('./$types').PageData} */
+	let variant: 'book' | 'movie' = 'movie';
+	/** @type {import('./$types').PageServerData} */
 	export let data;
 	movies = data.movies;
 	admin = data.admin;
+	variant = data.variant;
+
+	let link: HTMLLinkElement | null;
+
+	onMount(() => {
+		if (PUBLIC_VARIANT === 'book') {
+			link = document.querySelector("link[rel~='icon']");
+			if (!link) {
+				link = document.createElement('link');
+				link.rel = 'icon';
+				document.head.appendChild(link);
+			}
+			link.href = `${base}/book-favicon.png`;
+		}
+	});
 
 	onMount(() => {
 		let lastRefresh = new Date();

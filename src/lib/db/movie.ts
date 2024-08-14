@@ -1,25 +1,25 @@
-import { DataTypes, Model } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	type CreationOptional,
+	type InferAttributes,
+	type InferCreationAttributes
+} from 'sequelize';
 import sequelize from './sequelize';
 
-export type MovieType = {
-	id: number;
-	title: string;
-	image: string;
-	imdbID: string;
-	for: number | null;
-	against: number | null;
-	watched: boolean;
-};
-
-export class Movie extends Model {
-	declare id: number;
+type Extra = {
+	author?: string;
+}
+export class Movie extends Model<InferAttributes<Movie>, InferCreationAttributes<Movie>> {
+	declare id: CreationOptional<number>;
 	declare title: string;
 	declare image: string;
 	declare imdbID: string;
 	declare for: number | null;
 	declare against: number | null;
 	declare watched: boolean;
-	declare updatedAt: string;
+	declare updatedAt: CreationOptional<Date>;
+	declare extra: Extra;
 }
 
 Movie.init(
@@ -51,13 +51,19 @@ Movie.init(
 		watched: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false
+		},
+		updatedAt: {
+			type: DataTypes.DATE
+		},
+		extra: {
+			type: DataTypes.JSON
 		}
 	},
 	{ sequelize }
 );
 
 try {
-	await Movie.sync();
+	await Movie.sync({ alter: true });
 } catch (e: any) {}
 
 export default Movie;

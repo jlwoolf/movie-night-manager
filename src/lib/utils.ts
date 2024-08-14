@@ -1,16 +1,16 @@
 import { base } from '$app/paths';
+import type Movie from './db/movie';
 
 export const API_URL = `${base}/api`;
 
-export let fetchMovies = async () => {
+export let fetchMovies = async (): Promise<Movie[]> => {
 	const adminRes = await fetch(`${API_URL}/admin`, {
 		method: 'GET'
 	});
 
 	let adminData = await adminRes.json();
 
-	return await (
-		await fetch(`${API_URL}/movie/get`, {
+	const res = await fetch(`${API_URL}/movie/get`, {
 			method: 'POST',
 			body: JSON.stringify(
 				adminData.admin
@@ -20,5 +20,6 @@ export let fetchMovies = async () => {
 						}
 			)
 		})
-	).json();
+
+	return await res.json();
 };

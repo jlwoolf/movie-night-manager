@@ -1,12 +1,10 @@
 <script lang="ts">
-	import type { MovieType } from '$lib/db/movie';
+	import type { Movie } from '$lib/db/movie';
 	import { Icon, Check, XMark } from 'svelte-hero-icons';
 	import MovieCard from './MovieCard.svelte';
-	import { base } from '$app/paths';
 	import { API_URL, fetchMovies } from '$lib/utils';
-	import Page from '../../routes/+page.svelte';
 
-	export let movies: MovieType[];
+	export let movies: Movie[];
 	$: movie =
 		movies.length > 0 && movies.filter((a) => !a.watched)[0]
 			? movies.filter((a) => !a.watched)[0]

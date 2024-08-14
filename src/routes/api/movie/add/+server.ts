@@ -35,7 +35,8 @@ export const POST = (async ({ request, ...event }) => {
 			imdbID: data.imdbID,
 			for: 0,
 			against: 0,
-			watched: false
+			watched: false,
+			extra: data?.extra ? data.extra : {}
 		});
 
 		return json({

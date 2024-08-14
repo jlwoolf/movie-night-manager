@@ -1,30 +1,43 @@
 <script lang="ts">
-	import type { MovieType } from '$lib/db/movie';
+	import type { Movie } from '$lib/db/movie';
 	import MovieCard from './MovieCard.svelte';
 	import { API_URL, fetchMovies } from '$lib/utils';
 
 	export let id: string;
-	export let movies: MovieType[];
+	export let movies: Movie[] | null = null;
 
-	let search: MovieType[] = [];
+	let search: Movie[];
+	let loading: boolean = false;
 	let input: HTMLInputElement;
-	let onInput = async (event: Event) => {
-		if (!input.value) search = [];
 
-		const res = await fetch(`${API_URL}/omdb/search`, {
-			method: 'POST',
-			body: JSON.stringify({
-				value: input.value
-			})
-		});
+	let timeout: null | NodeJS.Timeout = null;
+	let onInput = async (_: Event) => {
+		if (!input.value) {
+			search = [];
+			return;
+		}
 
-		if (res.status !== 200) throw new Error('An unexpected error has occurred.');
+		if (timeout) clearTimeout(timeout);
 
-		search = await res.json();
+		timeout = setTimeout(() => {
+			loading = true;
+
+			fetch(`${API_URL}/search`, {
+				method: 'POST',
+				body: JSON.stringify({
+					value: input.value
+				})
+			}).then(async (res) => {
+				if (res.status !== 200) throw new Error('An unexpected error has occurred.');
+
+				search = await res.json();
+				loading = false;
+			});
+		}, 500);
 	};
 
-	let onClickGenerator = (movie: MovieType) => {
-		return async (event: Event) => {
+	let onClickGenerator = (movie: Movie) => {
+		return async (_: Event) => {
 			const res = await fetch(`${API_URL}/movie/add`, {
 				method: 'POST',
 				body: JSON.stringify(movie)
@@ -66,17 +79,23 @@
 				on:input={onInput}
 				bind:this={input}
 			/>
-			<ul
-				class="dropdown-content z-[1] flex flex-col flex-nowrap overflow-visible text-nowrap rounded-box bg-base-300 py-2 shadow"
-			>
-				{#each search as movie}
-					<li class="px-2">
-						<button class="w-full" on:click={onClickGenerator(movie)}>
-							<MovieCard {movie} small={true} />
-						</button>
-					</li>
-				{/each}
-			</ul>
+			{#if loading}
+				<span>Searching...</span>
+			{:else}
+				<ul
+					class="dropdown-content z-[1] flex flex-col flex-nowrap overflow-visible text-nowrap rounded-box bg-base-300 py-2 shadow"
+				>
+					{#if search}
+						{#each search as movie}
+							<li class="px-2">
+								<button class="w-full" on:click={onClickGenerator(movie)}>
+									<MovieCard {movie} small={true} />
+								</button>
+							</li>
+						{/each}
+					{/if}
+				</ul>
+			{/if}
 		</div>
 	</div>
 

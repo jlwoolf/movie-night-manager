@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { MovieType } from '$lib/db/movie';
+	import type { Movie } from '$lib/db/movie';
 
 	$: value = '';
 	$: filteredMovies = movies.filter((movie) => {
 		return movie.title.toLowerCase().includes(value);
 	});
 
-	export let movies: MovieType[];
+	export let movies: Movie[];
 
-	let onClickGenerator = (movie: MovieType) => {
+	let onClickGenerator = (movie: Movie) => {
 		return (e: MouseEvent) => {
 			if (e.target == null) return;
 

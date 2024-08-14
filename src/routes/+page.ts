@@ -1,5 +1,6 @@
 import type { PageLoad } from './$types';
 import { base } from '$app/paths';
+import { PUBLIC_VARIANT } from '$env/static/public';
 
 export const load = (async ({ fetch }) => {
 	const adminRes = await fetch(`${base}/api/admin`, {
@@ -23,6 +24,7 @@ export const load = (async ({ fetch }) => {
 
 	return {
 		movies: data,
-		admin: adminData.admin
+		admin: adminData.admin,
+		variant: PUBLIC_VARIANT
 	};
 }) satisfies PageLoad;

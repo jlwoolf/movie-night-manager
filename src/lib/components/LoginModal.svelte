@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { MovieType } from '$lib/db/movie';
+	import type { Movie } from '$lib/db/movie';
 	import { API_URL, fetchMovies } from '$lib/utils';
 
 	export let admin: boolean;
-	export let movies: MovieType[] = [];
+	export let movies: Movie[] | null = null;
 	let value: string = '';
 	let error: boolean = false;
 	let errorMsg: string = '';

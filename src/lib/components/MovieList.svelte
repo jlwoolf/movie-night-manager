@@ -1,9 +1,9 @@
 <script lang="ts">
 	import MovieCard from '$lib/components/MovieCard.svelte';
-	import type { MovieType } from '$lib/db/movie';
+	import type { Movie } from '$lib/db/movie';
 	import { flip } from 'svelte/animate';
 
-	export let movies: MovieType[];
+	export let movies: Movie[];
 	export let admin: boolean = false;
 
 	import { crossfade } from 'svelte/transition';
@@ -27,9 +27,9 @@
 		}
 	});
 
-	$: sortedMovies = movies.sort((a, b) => {
+	$: sortedMovies = movies ? movies.sort((a, b) => {
 		return (b.for ?? 0) - (b.against ?? 0) - ((a.for ?? 0) - (a.against ?? 0));
-	});
+	}) : [];
 
 	$: watchedMovies = sortedMovies.filter((a) => a.watched);
 	$: unwatchedMovies = sortedMovies.filter((a) => !a.watched);

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import type { MovieType } from '$lib/db/movie';
+	import type { Movie } from '$lib/db/movie';
 	import { API_URL, fetchMovies } from '$lib/utils';
-	import { onMount } from 'svelte';
 	import {
 		Icon,
 		ArrowUp,
@@ -13,8 +12,8 @@
 	} from 'svelte-hero-icons';
 	import DynamicInput from './DynamicInput.svelte';
 
-	export let movie: MovieType;
-	export let movies: MovieType[] | null = null;
+	export let movie: Movie;
+	export let movies: Movie[] | null = null;
 	export let small: boolean = true;
 	export let id: undefined | string = undefined;
 	export let showVotes: boolean = false;
@@ -118,9 +117,14 @@
 			<slot />
 
 			{#if small}
-				<h2 class="flex w-full items-center text-wrap text-sm font-normal sm:text-lg">
-					{movie.title}
-				</h2>
+				<div class="flex w-full justify-center flex-col text-left">
+					<h2 class="text-wrap text-sm font-normal sm:text-lg">
+						{movie.title}
+					</h2>
+					{#if movie?.extra}
+						<h3>{movie.extra.author}</h3>
+					{/if}
+				</div>
 			{:else}
 				<h2 class="card-title w-full font-bold">{movie.title}</h2>
 			{/if}
