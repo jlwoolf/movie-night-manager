@@ -5,6 +5,7 @@
 
 	export let movies: Movie[];
 	export let admin: boolean = false;
+	export let variant: 'book' | 'movie';
 
 	import { crossfade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
@@ -38,7 +39,7 @@
 <div class="flex w-full flex-col gap-2 p-2">
 	{#if admin && unwatchedMovies.length > 0}
 		<div class="flex w-full justify-center">
-			<h2 class="text-3xl">Unwatched Movies</h2>
+			<h2 class="text-3xl">{variant === 'book' ? 'Unread Books' : 'Unwatched Movies'}</h2>
 		</div>
 	{/if}
 	{#each unwatchedMovies as movie (movie.id)}
@@ -54,7 +55,7 @@
 
 	{#if admin && watchedMovies.length > 0}
 		<div class="flex w-full justify-center">
-			<h2 class="text-3xl">Watched Movies</h2>
+			<h2 class="text-3xl">{variant === 'book' ? 'Read Books' : 'Watched Movies'}</h2>
 		</div>
 		{#each watchedMovies as movie (movie.id)}
 			<div

@@ -68,7 +68,7 @@
 	tabindex="-1"
 >
 	<NavBar bind:movies bind:variant bind:page_title />
-	<MovieList bind:movies bind:admin />
+	<MovieList bind:movies bind:admin bind:variant />
 	<LoginModal bind:movies bind:admin />
 	<MovieOfTheWeek bind:movies bind:dismiss bind:admin />
 </div>
