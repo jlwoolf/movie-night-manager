@@ -32,3 +32,4 @@ services:
       - 'traefik.http.routers.book-app.tls.certresolver=production'
       - 'traefik.http.routers.book-app.tls.domains[0].main=jlwoolf.com'
       - 'traefik.http.routers.book-app.tls.domains[0].sans=*.jlwoolf.com'
+      - "com.centurylinklabs.watchtower.enable='false'"
