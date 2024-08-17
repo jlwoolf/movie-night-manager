@@ -1,7 +1,7 @@
 FROM node:latest AS build
 
-ARG VARIANT='movie'
-ENV BASE_PATH='/${VARIANT}s'
+ARG VARIANT=movie
+ENV BASE_PATH=/${VARIANT}s
 ENV VARIANT=${VARIANT}
 
 WORKDIR /usr/app
