@@ -1,8 +1,9 @@
+import { env } from '$env/dynamic/private';
 import { Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize({
 	dialect: 'sqlite',
-	storage: 'sqlite/movies.sqlite'
+	storage: `sqlite/${env?.VARIANT ?? 'movie'}s.sqlite`
 });
 
 try {

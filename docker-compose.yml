@@ -12,10 +12,10 @@ services:
       dockerfile: Dockerfile
       target: run
       args:
-        - BASE_PATH=${BASE_PATH:-'/movies'}
+        - BASE_PATH=/movies
     restart: always
     ports:
-      - '3000'
+      - ':3000'
     env_file:
       - .env
     volumes:

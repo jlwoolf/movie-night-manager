@@ -1,0 +1,34 @@
+name: book-club-manager
+
+networks:
+  book-app:
+    name: book-app
+
+services:
+  app:
+    container_name: book-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: run
+      args:
+        - BASE_PATH=/books
+    restart: always
+    ports:
+      - ':3000'
+    env_file:
+      - .env
+    volumes:
+      - ./sqlite/:/usr/app/sqlite/
+    networks:
+      - book-app
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.book-app.loadbalancer.server.port=3000'
+      # https/websecure
+      - 'traefik.http.routers.book-app.entrypoints=web,websecure'
+      - 'traefik.http.routers.book-app.rule=Host(`jlwoolf.com`) && PathPrefix(`/books`)'
+      - 'traefik.http.routers.book-app.tls=true'
+      - 'traefik.http.routers.book-app.tls.certresolver=production'
+      - 'traefik.http.routers.book-app.tls.domains[0].main=jlwoolf.com'
+      - 'traefik.http.routers.book-app.tls.domains[0].sans=*.jlwoolf.com'

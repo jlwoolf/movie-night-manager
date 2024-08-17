@@ -22,7 +22,7 @@ export const load = (async ({ fetch }) => {
 
 	let data = await res.json();
 	let variant: 'book' | 'movie' = env?.VARIANT === 'book' ? 'book' : 'movie';
-	let page_title = env?.PAGE_TITLE ?? 'Movie Night Manager';
+	let page_title = env?.PAGE_TITLE ?? (env?.VARIANT === 'movie' ? 'Movie Night Manager' : 'Book Club Manager');
 
 	return {
 		movies: data,

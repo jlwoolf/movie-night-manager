@@ -1,4 +1,4 @@
-FROM node:latest as build
+FROM node:latest AS build
 
 ARG BASE_PATH='/movies'
 
@@ -8,7 +8,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM node:latest as run
+FROM node:latest AS run
 
 WORKDIR /usr/app
 COPY --from=build /usr/app/package.json ./package.json
