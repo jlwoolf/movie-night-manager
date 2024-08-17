@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile
       target: run
       args:
-        - BASE_PATH=/movies
+        - VARIANT=movie
     restart: always
     ports:
       - ':3000'

@@ -1,11 +1,17 @@
 FROM node:latest AS build
 
-ARG BASE_PATH='/movies'
+ARG VARIANT='movie'
+ENV BASE_PATH='/${VARIANT}s'
+ENV VARIANT=${VARIANT}
 
 WORKDIR /usr/app
 COPY package*.json .
 RUN npm install
 COPY . .
+RUN if [ "${VARIANT}" = "book" ]; then \
+        cp static/book-favicon.png static/favicon.png; \
+    fi
+
 RUN npm run build
 
 FROM node:latest AS run
