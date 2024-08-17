@@ -12,12 +12,13 @@
 
 	let timeout: null | NodeJS.Timeout = null;
 	let onInput = async (_: Event) => {
+		if (timeout) clearTimeout(timeout);
+
 		if (!input.value) {
 			search = [];
+			loading = false;
 			return;
 		}
-
-		if (timeout) clearTimeout(timeout);
 
 		timeout = setTimeout(() => {
 			loading = true;
@@ -28,7 +29,9 @@
 					value: input.value
 				})
 			}).then(async (res) => {
-				if (res.status !== 200) throw new Error('An unexpected error has occurred.');
+				if (res.status !== 200) {
+					throw new Error('An unexpected error has occurred.');
+				}
 
 				search = await res.json();
 				loading = false;
